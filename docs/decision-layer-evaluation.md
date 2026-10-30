@@ -10,10 +10,17 @@ Switching to observable task attributes + bilingual lexical cues (`v2`) fixed th
 under-delegation (`44/45` without runtime, `45/45` with jevos+lexical, `16/16` on held-out test, `14/14` in
 Portuguese, `4/4` vague tasks abstaining).**
 
-Even more importantly for day-to-day use: the zero-dependency heuristic mode (`source: "heuristic"`)
-delivers `44/45` strict playbook matches in `<1 ms` with 0 MB of extra RAM, exposed directly in
-`orchestrate.py playbook --pick --task "<task>"`. Keep `auto` mode unbuilt until real shadow runs
-with `mark` outcomes accumulate, and use the v2 adviser/guardrail now.
+**Caveat: the v2 numbers are fit, not validated.** The lexical rules in `classifier.py` were written
+after the v1 results and contain phrases taken from corpus tasks, test split included ("summarize its
+entry points", "map the architecture", "never duplicated", "double-credit", "keeping old clients",
+"80 percent", "eight", "six"). So `16/16` held out is not held out, and `44/45` measures how well the
+rules memorise this corpus, not how they route new tasks. The v1 result (a real failure) and the
+costs below still stand.
+
+The zero-dependency heuristic (`source: "heuristic"`, `<1 ms`, 0 MB) is exposed in
+`orchestrate.py playbook --pick --task "<task>"` as non-binding advice. Treat it as an unvalidated
+hint. Keep `auto` unbuilt; judge the layer by `decision report` over real shadow runs with `mark`
+outcomes, or by a fresh task set written by someone else and scored once, with no rule changes after.
 
 ## What was checked
 
@@ -31,7 +38,8 @@ with `mark` outcomes accumulate, and use the v2 adviser/guardrail now.
 `references/decision-corpus.json`: 49 tasks (34 English, 15 Portuguese: 14 translations plus one vague;
 4 tasks are deliberately vague). Labels (delegate, parallel, complexity, risk, acceptable playbooks
 and tiers) are one reviewer's reading of `playbooks.yaml`; they were written, and the
-dev (30) / test (19) split was fixed by position, before any jevos result was seen. They are not
+dev (30) / test (19) split was fixed by position, before any jevos result was seen; the v2 lexical
+rules were then written with the whole corpus in view (see the caveat above). They are not
 ground truth. The four vague tasks are the only abstain evidence.
 
 Baselines: always `complete`/`standard`; always `direct`/`cheap`; a small keyword rule written by the
@@ -91,11 +99,11 @@ Measured benefit:
 
 | Case | Outcome |
 |---|---|
-| Route a task to a playbook before the lead plans | Not reliable: under-routes hard and high-risk work |
-| Pick a model tier | Slightly better than "always standard", not better than a keyword rule; risk is near chance |
-| Spot a vague task and abstain | No signal found |
-| Portuguese tasks | Clearly worse (jevos is English only) |
-| Collect evidence in shadow on real work | Works and is cheap, but only useful if outcomes are compared later (not built) |
+| Route a task to a playbook before the lead plans | Unproven: strong on this corpus, which the lexical rules were tuned on; untested on new tasks |
+| Pick a model tier | Same caveat; the "never cheap on non-low risk" guardrail is the useful part |
+| Spot a vague task and abstain | 4 examples only; the rule is "fewer than two content words and no concrete target" |
+| Portuguese tasks | Handled by the lexical cues, not by jevos (English only); 14 of 15 are translations of dev/test tasks |
+| Collect evidence in shadow on real work | Works and is cheap; `decision report` compares proposals with what the lead ran and the `mark` outcomes |
 | Respect provider pins, quotas, budgets | Not at risk: the layer cannot act |
 
 ## What would change the verdict
@@ -106,5 +114,7 @@ the other. Until then the corpus here is too small and too author-shaped to just
 
 ## Recommendation
 
-Use `playbook --pick --task "<task>"` as an everyday planning guardrail and keep `decision shadow`
-coupled with `mark` to collect real outcome data before enabling any automatic routing (`auto`).
+Treat `playbook --pick --task "<task>"` as an unvalidated hint; its tier guardrail is the safe part.
+Keep `decision shadow` with `mark` to collect real outcomes and read them with `decision report`
+before enabling any automatic routing (`auto`). Do not add corpus phrases to the lexical rules; add
+new tasks to a separate set instead and score them before touching the rules.

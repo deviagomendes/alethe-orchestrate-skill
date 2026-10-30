@@ -265,6 +265,25 @@ class ShadowTest(unittest.TestCase):
         updated = decision.record_outcome(self.folder, "worker-1", "used", "clean diff")
         self.assertEqual(updated["outcomeSummary"], {"used": 1, "partial": 0, "discarded": 0})
 
+    def test_report_splits_marks_by_agreement(self):
+        def run(name, actual, proposed, mark, status="ok"):
+            folder = Path(self.home.name) / name
+            folder.mkdir()
+            record = {"status": status, "actual": {"playbook": actual},
+                      "proposal": {"abstained": False, "recommendation": {"playbook": proposed}},
+                      "agreement": {"playbook": actual == proposed}}
+            (folder / "decision.json").write_text(json.dumps(record), encoding="utf-8")
+            decision.record_outcome(folder, "w1", mark)
+            return folder
+
+        folders = [run("a", "direct", "direct", "used"), run("b", "cascade", "direct", "discarded"),
+                   run("c", "direct", "direct", "used", status="fallback"), Path(self.home.name) / "none"]
+        result = decision.report(folders)
+        self.assertEqual((result["records"], result["fallback"], result["agreed"], result["overridden"]), (3, 1, 1, 1))
+        self.assertEqual(result["marks"]["agreed"]["used"], 1)
+        self.assertEqual(result["marks"]["overridden"]["discarded"], 1)
+        self.assertEqual(result["overrides"], {"direct -> cascade": 1})
+
     def test_benchmark_fixtures_are_well_formed(self):
         cases = json.loads(cli.FIXTURES.read_text(encoding="utf-8"))["cases"]
         self.assertGreaterEqual(len(cases), 9)

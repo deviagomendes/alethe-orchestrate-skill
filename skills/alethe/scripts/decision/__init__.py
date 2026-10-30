@@ -72,6 +72,38 @@ def record_outcome(folder: Path, worker_id: str, mark: str, why: Optional[str] =
         return None
 
 
+def report(folders: Collection[Path]) -> Dict[str, Any]:
+    """Compare shadow proposals with the playbook the lead ran and the worker marks, across folders."""
+    marks = ("used", "partial", "discarded")
+    groups = {name: dict.fromkeys(marks, 0) for name in ("agreed", "overridden", "unknown")}
+    totals = {"records": 0, "fallback": 0, "abstained": 0, "agreed": 0, "overridden": 0, "unknown": 0}
+    pairs: Dict[str, int] = {}
+    for folder in folders:
+        try:
+            record = json.loads((Path(folder) / RECORD_FILE).read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        if not isinstance(record, dict):
+            continue
+        totals["records"] += 1
+        if record.get("status") != "ok":
+            totals["fallback"] += 1
+            continue
+        proposal = record.get("proposal") if isinstance(record.get("proposal"), dict) else {}
+        totals["abstained"] += bool(proposal.get("abstained"))
+        agreed = (record.get("agreement") or {}).get("playbook")
+        group = "unknown" if agreed is None else ("agreed" if agreed else "overridden")
+        totals[group] += 1
+        if group == "overridden":
+            pair = f"{(proposal.get('recommendation') or {}).get('playbook')} -> {(record.get('actual') or {}).get('playbook')}"
+            pairs[pair] = pairs.get(pair, 0) + 1
+        for outcome in (record.get("outcomes") or {}).values():
+            if isinstance(outcome, dict) and outcome.get("mark") in marks:
+                groups[group][outcome["mark"]] += 1
+    return {**totals, "marks": groups, "overrides": dict(sorted(pairs.items(), key=lambda kv: -kv[1])),
+            "note": "agreed/overridden compares the proposal with the playbook passed to `new`; marks are worker outcomes"}
+
+
 def _write(path: Path, value: Any) -> None:
     handle, temp = tempfile.mkstemp(dir=str(path.parent), prefix=".decision-", suffix=".tmp")
     try:

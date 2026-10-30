@@ -14,6 +14,8 @@ Added:
   and abstention on vague requests. `new` writes `decision.json` in `shadow` mode without changing
   execution, and `mark` appends worker outcomes (`used`, `partial`, `discarded`) to `decision.json`
   for real-world evaluation (`docs/decision-layer-evaluation.md`, `tools/decision_eval.py`).
+  `decision report` compares the shadow proposals with the playbook the lead ran and the worker
+  marks. The v2 corpus numbers are fit to that corpus, not validated on new tasks.
 
 Fixed:
 

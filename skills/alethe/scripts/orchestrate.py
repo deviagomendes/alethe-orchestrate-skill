@@ -5540,7 +5540,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         "decision", help="optional local classifier that proposes a playbook; off by default, never decides"
     )
     decision_parser.add_argument(
-        "decision_action", choices=["status", "setup", "shadow", "off", "stop", "classify", "benchmark"]
+        "decision_action", choices=["status", "setup", "shadow", "off", "stop", "classify", "benchmark", "report"]
     )
     decision_parser.add_argument("task", nargs="?", help="with classify: the task text")
     decision_parser.add_argument("--policy", type=Path)
@@ -5691,7 +5691,12 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             policy_path = (args.policy or default_policy_path()).expanduser().resolve()
             if args.decision_action == "classify" and not args.task:
                 raise PlanError("decision classify needs the task text")
-            _, playbooks, strategies = decision_layer(policy_path)
+            decision, playbooks, strategies = decision_layer(policy_path)
+            if args.decision_action == "report":
+                home = orchestrations_home()
+                folders = [child for child in home.iterdir() if child.is_dir()] if home.is_dir() else []
+                print(json.dumps(decision.report(folders), indent=2, ensure_ascii=False))
+                return 0
             from decision import cli as decision_cli
             from decision.contracts import DecisionError
 
