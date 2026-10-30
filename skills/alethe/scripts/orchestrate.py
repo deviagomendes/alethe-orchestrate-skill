@@ -874,11 +874,15 @@ def selected_playbook_block(text: str, parsed: Dict[str, Any], book_id: str) -> 
     return "\n".join(lines[start:end]).rstrip()
 
 
-def playbook_output(policy_path: Path, book_id: Optional[str], pick: bool, as_json: bool) -> str:
+def playbook_output(
+    policy_path: Path, book_id: Optional[str], pick: bool, as_json: bool, task: Optional[str] = None
+) -> str:
     text, parsed = loaded_playbooks(policy_path)
     settings = playbook_settings(policy_path)
     if book_id and pick:
         raise PlanError("pass a playbook id or --pick, not both")
+    if task and not pick:
+        raise PlanError("--task goes with --pick")
     if book_id and book_id not in parsed["playbooks"]:
         raise PlanError(f"unknown playbook {book_id}; choose from {', '.join(parsed['playbooks'])}")
     if pick:
@@ -890,9 +894,28 @@ def playbook_output(policy_path: Path, book_id: Optional[str], pick: bool, as_js
                 for key, book in settings["playbooks"].items()
             ],
         }
+        if task and task.strip():
+            try:
+                decision, playbooks, strategies = decision_layer(policy_path)
+                payload["taskAdvice"] = decision.advise_task(policy_path, task, playbooks, strategies)
+            except Exception:
+                pass
         if as_json:
             return json.dumps(payload, indent=2, ensure_ascii=False)
         lines = [f"profile: {payload['profile']}", f"providers: {', '.join(payload['providers'])}"]
+        advice = payload.get("taskAdvice")
+        if isinstance(advice, dict):
+            cls = advice.get("classification", {})
+            rec = advice.get("recommendation", {})
+            if advice.get("abstained"):
+                lines.append("advice: abstain (task is too vague; clarify target before delegating)")
+            else:
+                guard = " (guardrail: do not use cheap tier)" if cls.get("risk") != "low" else ""
+                lines.append(
+                    f"advice ({advice.get('source', 'heuristic')}): playbook={rec.get('playbook')} "
+                    f"tier={rec.get('tier')}{guard} strategy={rec.get('runner_strategy')} "
+                    f"risk={cls.get('risk')} complexity={cls.get('complexity')}"
+                )
         lines.extend(f"pick {index}: {item['when']} -> {item['playbook']}" for index, item in enumerate(payload["pickOrder"], 1))
         lines.extend(f"{item['id']} | {item['name']} | {item['pickWhen']}" for item in payload["playbooks"])
         return "\n".join(lines)
@@ -3725,6 +3748,27 @@ def new_orchestration(title: str, playbook: Optional[str], why: Optional[str], l
     return {"folder": str(folder), **meta}
 
 
+def decision_layer(policy_path: Path) -> Tuple[Any, List[str], List[str]]:
+    """The optional decision package with the playbooks and strategies Alethe really has."""
+    scripts = str(Path(__file__).resolve().parent)
+    if scripts not in sys.path:
+        sys.path.insert(0, scripts)
+    import decision
+
+    return decision, list(loaded_playbooks(policy_path)[1]["playbooks"]), [name for name in STRATEGIES if name != "auto"]
+
+
+def shadow_decision(created: Dict[str, Any], title: str, why: Optional[str]) -> None:
+    """In shadow mode, record what the decision layer would propose beside the new orchestration."""
+    try:
+        policy_path = default_policy_path().expanduser().resolve()
+        decision, playbooks, strategies = decision_layer(policy_path)
+        decision.shadow(policy_path, Path(created["folder"]), f"{title}. {why or ''}".strip(), created.get("playbook"),
+                        playbooks, strategies)
+    except Exception:  # shadow never changes or blocks a run
+        pass
+
+
 def orchestration_meta(folder: Optional[Path]) -> Dict[str, Any]:
     raw = read_optional_json(folder / ORCHESTRATION_FILE) if folder is not None else None
     return raw if isinstance(raw, dict) else {}
@@ -5413,6 +5457,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     )
     playbook_parser.add_argument("id", nargs="?", help="print one playbook and its active settings")
     playbook_parser.add_argument("--pick", action="store_true", help="print a compact playbook selection index")
+    playbook_parser.add_argument("--task", help="with --pick, include a non-binding playbook/tier/risk proposal for this task")
     playbook_parser.add_argument("--json", action="store_true", help="print structured playbook data")
     playbook_parser.add_argument("--policy", type=Path)
     playbook_parser.add_argument("--path", action="store_true", help="print only the effective file path")
@@ -5491,6 +5536,18 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     wait_parser = subparsers.add_parser("wait", help="wait for running waves to finish")
     wait_parser.add_argument("folder", nargs="?", type=Path)
     wait_parser.add_argument("--timeout", type=int, default=DEFAULT_WAIT_SECONDS)
+    decision_parser = subparsers.add_parser(
+        "decision", help="optional local classifier that proposes a playbook; off by default, never decides"
+    )
+    decision_parser.add_argument(
+        "decision_action", choices=["status", "setup", "shadow", "off", "stop", "classify", "benchmark"]
+    )
+    decision_parser.add_argument("task", nargs="?", help="with classify: the task text")
+    decision_parser.add_argument("--policy", type=Path)
+    decision_parser.add_argument("--yes", action="store_true", help="with setup: the user agreed to the download")
+    decision_parser.add_argument("--endpoint", help="with setup: use a jevos runtime you already run, on 127.0.0.1")
+    decision_parser.add_argument("--wait", type=float, help="with classify: seconds to wait for the runtime to start")
+    decision_parser.add_argument("--fixtures", type=Path, help="with benchmark: a fixture file")
     new_parser = subparsers.add_parser("new", help="start an orchestration folder and make it the current one")
     new_parser.add_argument("title")
     new_parser.add_argument("--playbook")
@@ -5563,7 +5620,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             return 0
         if args.command == "playbook":
             policy_path = (args.policy or default_policy_path()).expanduser().resolve()
-            if (args.init or args.path) and (args.id or args.pick or args.json):
+            if (args.init or args.path) and (args.id or args.pick or args.json or args.task):
                 raise PlanError("--init and --path cannot be combined with an id, --pick or --json")
             if args.init:
                 print(str(init_playbooks(policy_path, args.force)))
@@ -5572,7 +5629,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             if args.path:
                 print(str(path))
                 return 0
-            print(playbook_output(policy_path, args.id, args.pick, args.json))
+            print(playbook_output(policy_path, args.id, args.pick, args.json, args.task))
             return 0
         if args.command == "editor":
             policy_path = (args.policy or default_policy_path()).expanduser().resolve()
@@ -5626,7 +5683,22 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             print(json.dumps(wait_payload(args.folder, args.timeout), indent=2, ensure_ascii=False))
             return 0
         if args.command == "new":
-            print(json.dumps(new_orchestration(args.title, args.playbook, args.why, args.lead), indent=2, ensure_ascii=False))
+            created = new_orchestration(args.title, args.playbook, args.why, args.lead)
+            shadow_decision(created, args.title, args.why)
+            print(json.dumps(created, indent=2, ensure_ascii=False))
+            return 0
+        if args.command == "decision":
+            policy_path = (args.policy or default_policy_path()).expanduser().resolve()
+            if args.decision_action == "classify" and not args.task:
+                raise PlanError("decision classify needs the task text")
+            _, playbooks, strategies = decision_layer(policy_path)
+            from decision import cli as decision_cli
+            from decision.contracts import DecisionError
+
+            try:
+                print(json.dumps(decision_cli.run(args, policy_path, playbooks, strategies), indent=2, ensure_ascii=False))
+            except DecisionError as error:
+                raise PlanError(str(error)) from error
             return 0
         if args.command == "list":
             entries = list_payload(max(1, args.limit))
@@ -5678,6 +5750,12 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 raise PlanError(f"usage: mark [FOLDER] WORKER {{{','.join(MARKS)}}}")
             folder = resolve_folder(Path(args.target[0]) if len(args.target) == 3 else None)
             entry = mark_payload(folder, args.target[-2], args.target[-1], args.why)
+            try:
+                policy_path = default_policy_path().expanduser().resolve()
+                decision, _, _ = decision_layer(policy_path)
+                decision.record_outcome(folder, args.target[-2], args.target[-1], entry.get("why"))
+            except Exception:
+                pass
             print(json.dumps(entry, indent=2, ensure_ascii=False))
             return 0
         if args.command == "scaffold":

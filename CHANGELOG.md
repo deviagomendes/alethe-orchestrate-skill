@@ -5,6 +5,16 @@ Alethe installs and updates the skill by that number.
 
 ## Unreleased
 
+Added:
+
+- An optional decision layer (`decision` command, `playbook --pick --task "<task>"`,
+  `references/decision-layer.md`): combines observable task attributes (via local jevos in `shadow`
+  mode) and zero-dependency bilingual (EN + PT-BR) lexical cues (`source: "heuristic"`) to propose a
+  playbook across Alethe's full `pickOrder`, a minimum safe tier (never `cheap` on non-low risk),
+  and abstention on vague requests. `new` writes `decision.json` in `shadow` mode without changing
+  execution, and `mark` appends worker outcomes (`used`, `partial`, `discarded`) to `decision.json`
+  for real-world evaluation (`docs/decision-layer-evaluation.md`, `tools/decision_eval.py`).
+
 Fixed:
 
 - The editor builds a label, a mark and a quota window for any provider named in `providers` or

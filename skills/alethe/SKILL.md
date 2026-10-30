@@ -127,8 +127,9 @@ Join at any point, including inside another skill's workflow. Do not start over:
 
 ## Pick a playbook, then adapt
 
-Before planning, run `scripts/orchestrate.py playbook --pick` for the active profile, provider
-order, pick conditions and playbook summaries. Then run `playbook <id>` for the chosen playbook,
+Before planning, run `scripts/orchestrate.py playbook --pick --task "<task>"` for the active profile,
+provider order, pick conditions, playbook summaries and a non-binding `advice` line (playbook, tier
+floor and risk guardrail, or `abstain` when the request is too vague). Then run `playbook <id>` for the chosen playbook,
 resolved tiers and quota and budget rules. Both accept `--json`; plain `playbook` prints the whole
 file for editing or onboarding only. See [references/playbooks.md](references/playbooks.md).
 

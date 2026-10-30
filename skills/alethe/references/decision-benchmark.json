@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "note": "Labels are reviewer judgement for comparing runs, not ground truth. Cases cover the guide's section 10 list that needs no provider setup.",
+  "cases": [
+    {
+      "id": "typo-trivial",
+      "task": "Fix the typo 'recieve' in README.md line 12.",
+      "expect": {
+        "delegate": false,
+        "parallel": false,
+        "complexity": "low",
+        "risk": "low"
+      }
+    },
+    {
+      "id": "localized-with-tests",
+      "task": "Add a null check in parse_config() and extend its unit test; the test suite already covers this module.",
+      "expect": {
+        "delegate": false,
+        "parallel": false,
+        "complexity": "low",
+        "risk": "low"
+      }
+    },
+    {
+      "id": "explore-unknown",
+      "task": "Understand how the billing module of this unfamiliar 200-file codebase works and summarize the entry points.",
+      "expect": {
+        "delegate": true,
+        "parallel": false,
+        "complexity": "medium",
+        "risk": "low"
+      }
+    },
+    {
+      "id": "independent-modules",
+      "task": "Migrate eight independent services, each in its own directory with its own tests, from callbacks to async/await.",
+      "expect": {
+        "delegate": true,
+        "parallel": true,
+        "complexity": "medium",
+        "risk": "medium"
+      }
+    },
+    {
+      "id": "shared-dependency",
+      "task": "Rename the shared Session class used by the auth, billing and reports modules and update all three together.",
+      "expect": {
+        "delegate": true,
+        "parallel": false,
+        "complexity": "medium",
+        "risk": "medium"
+      }
+    },
+    {
+      "id": "auth-security-bug",
+      "task": "Fix a bug where expired JWT tokens are still accepted by the login endpoint.",
+      "expect": {
+        "risk": "high"
+      }
+    },
+    {
+      "id": "ptbr-trivial",
+      "task": "Corrija o erro de digitação no título do README.",
+      "expect": {
+        "delegate": false,
+        "complexity": "low",
+        "risk": "low"
+      }
+    },
+    {
+      "id": "ptbr-multi-module",
+      "task": "Refatore a autenticação de 8 módulos para uma API comum, preservando a API pública.",
+      "expect": {
+        "delegate": true,
+        "complexity": "high"
+      }
+    },
+    {
+      "id": "insufficient-info",
+      "task": "Make it better.",
+      "expect": {}
+    }
+  ]
+}

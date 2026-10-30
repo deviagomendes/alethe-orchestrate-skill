@@ -1,0 +1,1083 @@
+{
+ "version": 2,
+ "note": "Labels are one reviewer's judgement from playbooks.yaml pickWhen/avoidWhen, written and split before any model result was seen. 'best' is the strict set; 'ok' also accepts the default 'complete' and close neighbours. Not ground truth.",
+ "cases": [
+  {
+   "id": "typo-readme",
+   "lang": "en",
+   "split": "dev",
+   "task": "Fix the typo 'recieve' in README.md.",
+   "expect": {
+    "delegate": false,
+    "parallel": false,
+    "complexity": "low",
+    "risk": "low",
+    "best": [
+     "direct"
+    ],
+    "ok": [
+     "direct"
+    ],
+    "tiers": [
+     "cheap"
+    ]
+   }
+  },
+  {
+   "id": "typo-readme-pt",
+   "lang": "pt",
+   "split": "dev",
+   "task": "Corrija o erro de digitação 'recieve' no README.md.",
+   "expect": {
+    "delegate": false,
+    "parallel": false,
+    "complexity": "low",
+    "risk": "low",
+    "best": [
+     "direct"
+    ],
+    "ok": [
+     "direct"
+    ],
+    "tiers": [
+     "cheap"
+    ]
+   }
+  },
+  {
+   "id": "rename-var",
+   "lang": "en",
+   "split": "dev",
+   "task": "Rename the local variable tmp to buffer in utils/io.py.",
+   "expect": {
+    "delegate": false,
+    "parallel": false,
+    "complexity": "low",
+    "risk": "low",
+    "best": [
+     "direct"
+    ],
+    "ok": [
+     "direct"
+    ],
+    "tiers": [
+     "cheap"
+    ]
+   }
+  },
+  {
+   "id": "null-check",
+   "lang": "en",
+   "split": "dev",
+   "task": "Add a null check in parse_config() and extend its unit test.",
+   "expect": {
+    "delegate": false,
+    "parallel": false,
+    "complexity": "low",
+    "risk": "low",
+    "best": [
+     "direct"
+    ],
+    "ok": [
+     "direct"
+    ],
+    "tiers": [
+     "cheap",
+     "standard"
+    ]
+   }
+  },
+  {
+   "id": "null-check-pt",
+   "lang": "pt",
+   "split": "dev",
+   "task": "Adicione uma verificação de nulo em parse_config() e amplie o teste unitário.",
+   "expect": {
+    "delegate": false,
+    "parallel": false,
+    "complexity": "low",
+    "risk": "low",
+    "best": [
+     "direct"
+    ],
+    "ok": [
+     "direct"
+    ],
+    "tiers": [
+     "cheap",
+     "standard"
+    ]
+   }
+  },
+  {
+   "id": "bump-version",
+   "lang": "en",
+   "split": "test",
+   "task": "Bump the version number in package.json and the CHANGELOG for release 2.4.1.",
+   "expect": {
+    "delegate": false,
+    "parallel": false,
+    "complexity": "low",
+    "risk": "low",
+    "best": [
+     "direct"
+    ],
+    "ok": [
+     "direct"
+    ],
+    "tiers": [
+     "cheap"
+    ]
+   }
+  },
+  {
+   "id": "off-by-one",
+   "lang": "en",
+   "split": "test",
+   "task": "Fix an off-by-one error in the pagination helper; a failing test already reproduces it.",
+   "expect": {
+    "delegate": false,
+    "parallel": false,
+    "complexity": "low",
+    "risk": "low",
+    "best": [
+     "direct"
+    ],
+    "ok": [
+     "direct"
+    ],
+    "tiers": [
+     "cheap",
+     "standard"
+    ]
+   }
+  },
+  {
+   "id": "log-line",
+   "lang": "en",
+   "split": "dev",
+   "task": "Add a log line when the cache is cleared in cache/manager.py.",
+   "expect": {
+    "delegate": false,
+    "parallel": false,
+    "complexity": "low",
+    "risk": "low",
+    "best": [
+     "direct"
+    ],
+    "ok": [
+     "direct"
+    ],
+    "tiers": [
+     "cheap"
+    ]
+   }
+  },
+  {
+   "id": "health-endpoint",
+   "lang": "en",
+   "split": "dev",
+   "task": "Add a GET /health endpoint that returns the build version.",
+   "expect": {
+    "delegate": false,
+    "parallel": false,
+    "complexity": "low",
+    "risk": "low",
+    "best": [
+     "direct"
+    ],
+    "ok": [
+     "direct"
+    ],
+    "tiers": [
+     "cheap",
+     "standard"
+    ]
+   }
+  },
+  {
+   "id": "health-endpoint-pt",
+   "lang": "pt",
+   "split": "dev",
+   "task": "Adicione um endpoint GET /health que devolva a versão do build.",
+   "expect": {
+    "delegate": false,
+    "parallel": false,
+    "complexity": "low",
+    "risk": "low",
+    "best": [
+     "direct"
+    ],
+    "ok": [
+     "direct"
+    ],
+    "tiers": [
+     "cheap",
+     "standard"
+    ]
+   }
+  },
+  {
+   "id": "readme-flag",
+   "lang": "en",
+   "split": "dev",
+   "task": "Update the README installation section to mention the new --yes flag.",
+   "expect": {
+    "delegate": false,
+    "parallel": false,
+    "complexity": "low",
+    "risk": "low",
+    "best": [
+     "direct"
+    ],
+    "ok": [
+     "direct"
+    ],
+    "tiers": [
+     "cheap"
+    ]
+   }
+  },
+  {
+   "id": "button-label",
+   "lang": "en",
+   "split": "test",
+   "task": "Change the label of the Save button to Save changes on the settings page.",
+   "expect": {
+    "delegate": false,
+    "parallel": false,
+    "complexity": "low",
+    "risk": "low",
+    "best": [
+     "direct"
+    ],
+    "ok": [
+     "direct"
+    ],
+    "tiers": [
+     "cheap"
+    ]
+   }
+  },
+  {
+   "id": "find-usages",
+   "lang": "en",
+   "split": "test",
+   "task": "Find every call to the deprecated fetchUser() function in the repo and list file and line.",
+   "expect": {
+    "delegate": false,
+    "parallel": false,
+    "complexity": "low",
+    "risk": "low",
+    "best": [
+     "direct"
+    ],
+    "ok": [
+     "direct"
+    ],
+    "tiers": [
+     "cheap"
+    ]
+   }
+  },
+  {
+   "id": "explain-billing",
+   "lang": "en",
+   "split": "dev",
+   "task": "Read the billing module of this unfamiliar 200-file codebase and summarize its entry points and data flow.",
+   "expect": {
+    "delegate": true,
+    "parallel": false,
+    "complexity": "medium",
+    "risk": "low",
+    "best": [
+     "scout-then-build"
+    ],
+    "ok": [
+     "complete",
+     "plan-big-execute-small",
+     "scout-then-build"
+    ],
+    "tiers": [
+     "cheap",
+     "standard"
+    ]
+   }
+  },
+  {
+   "id": "explain-billing-pt",
+   "lang": "pt",
+   "split": "dev",
+   "task": "Leia o módulo de cobrança deste código desconhecido de 200 arquivos e resuma os pontos de entrada e o fluxo de dados.",
+   "expect": {
+    "delegate": true,
+    "parallel": false,
+    "complexity": "medium",
+    "risk": "low",
+    "best": [
+     "scout-then-build"
+    ],
+    "ok": [
+     "complete",
+     "plan-big-execute-small",
+     "scout-then-build"
+    ],
+    "tiers": [
+     "cheap",
+     "standard"
+    ]
+   }
+  },
+  {
+   "id": "map-inherited",
+   "lang": "en",
+   "split": "dev",
+   "task": "Map the architecture of a service we just inherited, with no docs and about 40 modules, and write a short guide.",
+   "expect": {
+    "delegate": true,
+    "parallel": false,
+    "complexity": "medium",
+    "risk": "low",
+    "best": [
+     "scout-then-build"
+    ],
+    "ok": [
+     "complete",
+     "plan-big-execute-small",
+     "scout-then-build"
+    ],
+    "tiers": [
+     "cheap",
+     "standard"
+    ]
+   }
+  },
+  {
+   "id": "audit-endpoints",
+   "lang": "en",
+   "split": "dev",
+   "task": "Audit all 60 REST endpoints for missing input validation and produce a report.",
+   "expect": {
+    "delegate": true,
+    "parallel": true,
+    "complexity": "medium",
+    "risk": "medium",
+    "best": [
+     "audit-at-scale",
+     "plan-big-execute-small"
+    ],
+    "ok": [
+     "audit-at-scale",
+     "complete",
+     "plan-big-execute-small"
+    ],
+    "tiers": [
+     "standard"
+    ]
+   }
+  },
+  {
+   "id": "audit-endpoints-pt",
+   "lang": "pt",
+   "split": "dev",
+   "task": "Audite os 60 endpoints REST em busca de validação de entrada ausente e produza um relatório.",
+   "expect": {
+    "delegate": true,
+    "parallel": true,
+    "complexity": "medium",
+    "risk": "medium",
+    "best": [
+     "audit-at-scale",
+     "plan-big-execute-small"
+    ],
+    "ok": [
+     "audit-at-scale",
+     "complete",
+     "plan-big-execute-small"
+    ],
+    "tiers": [
+     "standard"
+    ]
+   }
+  },
+  {
+   "id": "audit-licences",
+   "lang": "en",
+   "split": "test",
+   "task": "Check 120 dependencies for licence problems and list the ones that need legal review.",
+   "expect": {
+    "delegate": true,
+    "parallel": true,
+    "complexity": "low",
+    "risk": "low",
+    "best": [
+     "audit-at-scale",
+     "plan-big-execute-small"
+    ],
+    "ok": [
+     "audit-at-scale",
+     "complete",
+     "plan-big-execute-small"
+    ],
+    "tiers": [
+     "cheap",
+     "standard"
+    ]
+   }
+  },
+  {
+   "id": "triage-ci-logs",
+   "lang": "en",
+   "split": "test",
+   "task": "Triage 300 failing CI log excerpts into root-cause buckets.",
+   "expect": {
+    "delegate": true,
+    "parallel": true,
+    "complexity": "low",
+    "risk": "low",
+    "best": [
+     "audit-at-scale",
+     "plan-big-execute-small"
+    ],
+    "ok": [
+     "audit-at-scale",
+     "complete",
+     "plan-big-execute-small"
+    ],
+    "tiers": [
+     "cheap"
+    ]
+   }
+  },
+  {
+   "id": "migrate-8-services",
+   "lang": "en",
+   "split": "dev",
+   "task": "Migrate eight independent services, each in its own directory with its own tests and no shared code, from callbacks to async/await.",
+   "expect": {
+    "delegate": true,
+    "parallel": true,
+    "complexity": "medium",
+    "risk": "medium",
+    "best": [
+     "parallel-worktrees"
+    ],
+    "ok": [
+     "cascade",
+     "complete",
+     "parallel-worktrees"
+    ],
+    "tiers": [
+     "standard"
+    ]
+   }
+  },
+  {
+   "id": "migrate-8-services-pt",
+   "lang": "pt",
+   "split": "dev",
+   "task": "Migre oito serviços independentes, cada um no seu diretório com seus testes e sem código compartilhado, de callbacks para async/await.",
+   "expect": {
+    "delegate": true,
+    "parallel": true,
+    "complexity": "medium",
+    "risk": "medium",
+    "best": [
+     "parallel-worktrees"
+    ],
+    "ok": [
+     "cascade",
+     "complete",
+     "parallel-worktrees"
+    ],
+    "tiers": [
+     "standard"
+    ]
+   }
+  },
+  {
+   "id": "rename-shared-class",
+   "lang": "en",
+   "split": "dev",
+   "task": "Rename the shared Session class used by the auth, billing and reports modules and update every caller together.",
+   "expect": {
+    "delegate": true,
+    "parallel": false,
+    "complexity": "medium",
+    "risk": "medium",
+    "best": [
+     "plan-execute",
+     "cascade"
+    ],
+    "ok": [
+     "cascade",
+     "complete",
+     "plan-execute"
+    ],
+    "tiers": [
+     "standard"
+    ]
+   }
+  },
+  {
+   "id": "rename-shared-class-pt",
+   "lang": "pt",
+   "split": "dev",
+   "task": "Renomeie a classe compartilhada Session usada pelos módulos de autenticação, cobrança e relatórios e atualize todos os chamadores juntos.",
+   "expect": {
+    "delegate": true,
+    "parallel": false,
+    "complexity": "medium",
+    "risk": "medium",
+    "best": [
+     "plan-execute",
+     "cascade"
+    ],
+    "ok": [
+     "cascade",
+     "complete",
+     "plan-execute"
+    ],
+    "tiers": [
+     "standard"
+    ]
+   }
+  },
+  {
+   "id": "lint-warnings",
+   "lang": "en",
+   "split": "dev",
+   "task": "Fix the 400 lint warnings across the repo; the linter and the test suite run in CI and are green today.",
+   "expect": {
+    "delegate": true,
+    "parallel": false,
+    "complexity": "low",
+    "risk": "low",
+    "best": [
+     "cascade"
+    ],
+    "ok": [
+     "cascade",
+     "complete",
+     "parallel-worktrees"
+    ],
+    "tiers": [
+     "cheap"
+    ]
+   }
+  },
+  {
+   "id": "lint-warnings-pt",
+   "lang": "pt",
+   "split": "dev",
+   "task": "Corrija os 400 avisos do linter no repositório; o linter e a suíte de testes rodam no CI e estão verdes hoje.",
+   "expect": {
+    "delegate": true,
+    "parallel": false,
+    "complexity": "low",
+    "risk": "low",
+    "best": [
+     "cascade"
+    ],
+    "ok": [
+     "cascade",
+     "complete",
+     "parallel-worktrees"
+    ],
+    "tiers": [
+     "cheap"
+    ]
+   }
+  },
+  {
+   "id": "type-annotations",
+   "lang": "en",
+   "split": "test",
+   "task": "Add type annotations to all functions in 30 modules and make mypy pass.",
+   "expect": {
+    "delegate": true,
+    "parallel": true,
+    "complexity": "low",
+    "risk": "low",
+    "best": [
+     "cascade"
+    ],
+    "ok": [
+     "cascade",
+     "complete",
+     "parallel-worktrees"
+    ],
+    "tiers": [
+     "cheap"
+    ]
+   }
+  },
+  {
+   "id": "test-coverage",
+   "lang": "en",
+   "split": "test",
+   "task": "Raise unit test coverage of 12 independent utility modules to 80 percent.",
+   "expect": {
+    "delegate": true,
+    "parallel": true,
+    "complexity": "low",
+    "risk": "low",
+    "best": [
+     "parallel-worktrees",
+     "cascade"
+    ],
+    "ok": [
+     "cascade",
+     "complete",
+     "parallel-worktrees",
+     "plan-big-execute-small"
+    ],
+    "tiers": [
+     "cheap",
+     "standard"
+    ]
+   }
+  },
+  {
+   "id": "translate-strings",
+   "lang": "en",
+   "split": "dev",
+   "task": "Translate 200 UI strings from English to Spanish and update the JSON files.",
+   "expect": {
+    "delegate": true,
+    "parallel": true,
+    "complexity": "low",
+    "risk": "low",
+    "best": [
+     "plan-big-execute-small",
+     "audit-at-scale"
+    ],
+    "ok": [
+     "audit-at-scale",
+     "cascade",
+     "complete",
+     "parallel-worktrees",
+     "plan-big-execute-small"
+    ],
+    "tiers": [
+     "cheap"
+    ]
+   }
+  },
+  {
+   "id": "dead-code",
+   "lang": "en",
+   "split": "dev",
+   "task": "Remove dead code across the monorepo that the compiler and the test suite confirm is unused.",
+   "expect": {
+    "delegate": true,
+    "parallel": false,
+    "complexity": "low",
+    "risk": "low",
+    "best": [
+     "cascade"
+    ],
+    "ok": [
+     "cascade",
+     "complete"
+    ],
+    "tiers": [
+     "cheap"
+    ]
+   }
+  },
+  {
+   "id": "framework-upgrade",
+   "lang": "en",
+   "split": "dev",
+   "task": "Upgrade the web framework from version 4 to 5 across the app; the test suite is thorough and many deprecations changed.",
+   "expect": {
+    "delegate": true,
+    "parallel": false,
+    "complexity": "medium",
+    "risk": "medium",
+    "best": [
+     "cascade",
+     "plan-execute"
+    ],
+    "ok": [
+     "cascade",
+     "complete",
+     "plan-execute"
+    ],
+    "tiers": [
+     "standard"
+    ]
+   }
+  },
+  {
+   "id": "csv-export",
+   "lang": "en",
+   "split": "test",
+   "task": "Build a CSV export feature: a backend endpoint, then the formatting layer, then a button in the UI, each step depending on the previous one.",
+   "expect": {
+    "delegate": true,
+    "parallel": false,
+    "complexity": "medium",
+    "risk": "low",
+    "best": [
+     "plan-execute"
+    ],
+    "ok": [
+     "complete",
+     "plan-execute"
+    ],
+    "tiers": [
+     "standard"
+    ]
+   }
+  },
+  {
+   "id": "csv-export-pt",
+   "lang": "pt",
+   "split": "test",
+   "task": "Construa uma exportação em CSV: um endpoint no backend, depois a camada de formatação, depois um botão na interface, cada etapa dependendo da anterior.",
+   "expect": {
+    "delegate": true,
+    "parallel": false,
+    "complexity": "medium",
+    "risk": "low",
+    "best": [
+     "plan-execute"
+    ],
+    "ok": [
+     "complete",
+     "plan-execute"
+    ],
+    "tiers": [
+     "standard"
+    ]
+   }
+  },
+  {
+   "id": "jwt-expired",
+   "lang": "en",
+   "split": "test",
+   "task": "Fix a bug where expired JWT tokens are still accepted by the login endpoint.",
+   "expect": {
+    "delegate": false,
+    "parallel": false,
+    "complexity": "medium",
+    "risk": "high",
+    "best": [
+     "direct",
+     "plan-execute"
+    ],
+    "ok": [
+     "complete",
+     "direct",
+     "plan-execute"
+    ],
+    "tiers": [
+     "standard",
+     "strong"
+    ]
+   }
+  },
+  {
+   "id": "jwt-expired-pt",
+   "lang": "pt",
+   "split": "test",
+   "task": "Corrija um bug em que tokens JWT expirados ainda são aceitos pelo endpoint de login.",
+   "expect": {
+    "delegate": false,
+    "parallel": false,
+    "complexity": "medium",
+    "risk": "high",
+    "best": [
+     "direct",
+     "plan-execute"
+    ],
+    "ok": [
+     "complete",
+     "direct",
+     "plan-execute"
+    ],
+    "tiers": [
+     "standard",
+     "strong"
+    ]
+   }
+  },
+  {
+   "id": "reset-token-reuse",
+   "lang": "en",
+   "split": "dev",
+   "task": "A customer reports that password reset tokens can be reused; investigate and fix it.",
+   "expect": {
+    "delegate": false,
+    "parallel": false,
+    "complexity": "medium",
+    "risk": "high",
+    "best": [
+     "direct",
+     "plan-execute"
+    ],
+    "ok": [
+     "complete",
+     "direct",
+     "plan-execute"
+    ],
+    "tiers": [
+     "standard",
+     "strong"
+    ]
+   }
+  },
+  {
+   "id": "race-condition",
+   "lang": "en",
+   "split": "dev",
+   "task": "Find and fix an intermittent race condition in the job scheduler that only shows up in production under load; we have no reproduction.",
+   "expect": {
+    "delegate": true,
+    "parallel": false,
+    "complexity": "high",
+    "risk": "high",
+    "best": [
+     "best-of-n"
+    ],
+    "ok": [
+     "best-of-n",
+     "complete",
+     "plan-execute"
+    ],
+    "tiers": [
+     "strong"
+    ]
+   }
+  },
+  {
+   "id": "race-condition-pt",
+   "lang": "pt",
+   "split": "dev",
+   "task": "Encontre e corrija uma condição de corrida intermitente no agendador de jobs que só aparece em produção sob carga; não temos reprodução.",
+   "expect": {
+    "delegate": true,
+    "parallel": false,
+    "complexity": "high",
+    "risk": "high",
+    "best": [
+     "best-of-n"
+    ],
+    "ok": [
+     "best-of-n",
+     "complete",
+     "plan-execute"
+    ],
+    "tiers": [
+     "strong"
+    ]
+   }
+  },
+  {
+   "id": "payment-retries",
+   "lang": "en",
+   "split": "dev",
+   "task": "Refactor the payment retry logic so charges are never duplicated, across the checkout, billing and webhook modules.",
+   "expect": {
+    "delegate": true,
+    "parallel": false,
+    "complexity": "high",
+    "risk": "high",
+    "best": [
+     "best-of-n",
+     "plan-execute"
+    ],
+    "ok": [
+     "best-of-n",
+     "complete",
+     "plan-execute"
+    ],
+    "tiers": [
+     "strong"
+    ]
+   }
+  },
+  {
+   "id": "payment-retries-pt",
+   "lang": "pt",
+   "split": "dev",
+   "task": "Refatore a lógica de nova tentativa de pagamento para que cobranças nunca sejam duplicadas, nos módulos de checkout, cobrança e webhook.",
+   "expect": {
+    "delegate": true,
+    "parallel": false,
+    "complexity": "high",
+    "risk": "high",
+    "best": [
+     "best-of-n",
+     "plan-execute"
+    ],
+    "ok": [
+     "best-of-n",
+     "complete",
+     "plan-execute"
+    ],
+    "tiers": [
+     "strong"
+    ]
+   }
+  },
+  {
+   "id": "db-backfill",
+   "lang": "en",
+   "split": "test",
+   "task": "Write and run a migration that splits the users table and backfills 50 million rows in production without downtime.",
+   "expect": {
+    "delegate": true,
+    "parallel": false,
+    "complexity": "high",
+    "risk": "high",
+    "best": [
+     "plan-execute",
+     "best-of-n"
+    ],
+    "ok": [
+     "best-of-n",
+     "complete",
+     "plan-execute"
+    ],
+    "tiers": [
+     "strong"
+    ]
+   }
+  },
+  {
+   "id": "db-backfill-pt",
+   "lang": "pt",
+   "split": "test",
+   "task": "Escreva e execute uma migração que divide a tabela de usuários e preenche 50 milhões de linhas em produção sem indisponibilidade.",
+   "expect": {
+    "delegate": true,
+    "parallel": false,
+    "complexity": "high",
+    "risk": "high",
+    "best": [
+     "plan-execute",
+     "best-of-n"
+    ],
+    "ok": [
+     "best-of-n",
+     "complete",
+     "plan-execute"
+    ],
+    "tiers": [
+     "strong"
+    ]
+   }
+  },
+  {
+   "id": "api-v2",
+   "lang": "en",
+   "split": "test",
+   "task": "Replace v1 of our public REST API with v2 across the server, the SDK and the docs, keeping old clients working for six months.",
+   "expect": {
+    "delegate": true,
+    "parallel": false,
+    "complexity": "high",
+    "risk": "high",
+    "best": [
+     "plan-execute"
+    ],
+    "ok": [
+     "best-of-n",
+     "complete",
+     "plan-execute"
+    ],
+    "tiers": [
+     "strong"
+    ]
+   }
+  },
+  {
+   "id": "api-v2-pt",
+   "lang": "pt",
+   "split": "test",
+   "task": "Substitua a v1 da nossa API REST pública pela v2 no servidor, no SDK e na documentação, mantendo clientes antigos funcionando por seis meses.",
+   "expect": {
+    "delegate": true,
+    "parallel": false,
+    "complexity": "high",
+    "risk": "high",
+    "best": [
+     "plan-execute"
+    ],
+    "ok": [
+     "best-of-n",
+     "complete",
+     "plan-execute"
+    ],
+    "tiers": [
+     "strong"
+    ]
+   }
+  },
+  {
+   "id": "auth-review",
+   "lang": "en",
+   "split": "dev",
+   "task": "Review the whole authentication and session layer for vulnerabilities and propose fixes.",
+   "expect": {
+    "delegate": true,
+    "parallel": false,
+    "complexity": "high",
+    "risk": "high",
+    "best": [
+     "best-of-n",
+     "scout-then-build",
+     "plan-execute"
+    ],
+    "ok": [
+     "best-of-n",
+     "complete",
+     "plan-execute",
+     "scout-then-build"
+    ],
+    "tiers": [
+     "strong"
+    ]
+   }
+  },
+  {
+   "id": "vague-better",
+   "lang": "en",
+   "split": "test",
+   "task": "Make it better.",
+   "expect": {
+    "abstain": true
+   }
+  },
+  {
+   "id": "vague-thing",
+   "lang": "en",
+   "split": "test",
+   "task": "Do the thing we talked about.",
+   "expect": {
+    "abstain": true
+   }
+  },
+  {
+   "id": "vague-fix",
+   "lang": "en",
+   "split": "dev",
+   "task": "Fix it.",
+   "expect": {
+    "abstain": true
+   }
+  },
+  {
+   "id": "vague-pt",
+   "lang": "pt",
+   "split": "test",
+   "task": "Melhora isso aí.",
+   "expect": {
+    "abstain": true
+   }
+  }
+ ]
+}
